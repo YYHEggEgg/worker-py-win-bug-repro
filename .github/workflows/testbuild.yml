@@ -23,7 +23,7 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
 
-    - name: Install npm dependencies and save output
+    - name: Install npm dependencies
       run: |
         npm install
         npm install wrangler@latest
@@ -49,19 +49,16 @@ jobs:
 
     - name: Output versions to log
       run: |
+        echo "wrangler version: " >> versions.log
+        npx wrangler --version >> versions.log
         echo "Python version: " > versions.log
         python --version >> versions.log
         echo "npm version: " >> versions.log
         npm --version >> versions.log
-        echo "wrangler version: " >> versions.log
-        npx wrangler --version >> versions.log
       shell: cmd
 
     - name: Build with npm
-      run: |
-        # 设置输出渲染为纯文本，移除 ANSI 转义序列
-        $PSStyle.OutputRendering = 'PlainText'
-        npm run build | Out-File -FilePath build.log -Encoding utf8
+      run: npm run build | Out-File -FilePath build.log -Encoding utf8
       shell: powershell
 
     - name: Upload logs
