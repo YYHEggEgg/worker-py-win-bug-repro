@@ -49,13 +49,18 @@ jobs:
 
     - name: Output versions to log
       run: |
-        echo "Python version: $(python --version)" > versions.log
-        echo "npm version: $(npm --version)" >> versions.log
-        echo "wrangler version: $(npx wrangler --version)" >> versions.log
+        echo "Python version: " > versions.log
+        python --version >> versions.log
+        echo "npm version: " >> versions.log
+        npm --version >> versions.log
+        echo "wrangler version: " >> versions.log
+        npx wrangler --version >> versions.log
       shell: cmd
 
     - name: Build with npm
-      run: npm run build | Out-File -FilePath build.log -Encoding utf8
+      run: |
+        npm config set color false
+        npm run build | Out-File -FilePath build.log -Encoding utf8
       shell: powershell
 
     - name: Upload logs
