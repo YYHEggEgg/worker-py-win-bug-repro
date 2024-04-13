@@ -47,15 +47,16 @@ jobs:
         .\${{ env.VENV_NAME }}\Scripts\activate
       shell: cmd
 
-    - name: Build with npm
-      run: npm run build > build.log
-
     - name: Output versions to log
       run: |
         echo "Python version: $(python --version)" > versions.log
-        echo "npm version: $(npm --version)" > versions.log
-        echo "wrangler version: $(npx wrangler --version)" > versions.log
+        echo "npm version: $(npm --version)" >> versions.log
+        echo "wrangler version: $(npx wrangler --version)" >> versions.log
       shell: cmd
+
+    - name: Build with npm
+      run: npm run build | Out-File -FilePath build.log -Encoding utf8
+      shell: powershell
 
     - name: Upload logs
       if: always()
