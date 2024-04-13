@@ -52,9 +52,9 @@ jobs:
 
     - name: Output versions to log
       run: |
-        echo "Python version: $(python --version)" > versions.log
-        echo "npm version: $(npm --version)" > versions.log
-        echo "wrangler version: $(npx wrangler --version)" > versions.log
+        echo "Python version: $(python --version)" > versions.log
+        echo "npm version: $(npm --version)" > versions.log
+        echo "wrangler version: $(npx wrangler --version)" > versions.log
       shell: cmd
 
     - name: Upload logs
