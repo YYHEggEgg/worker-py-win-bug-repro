@@ -59,7 +59,8 @@ jobs:
 
     - name: Build with npm
       run: |
-        npm config set color false
+        # 设置输出渲染为纯文本，移除 ANSI 转义序列
+        $PSStyle.OutputRendering = 'PlainText'
         npm run build | Out-File -FilePath build.log -Encoding utf8
       shell: powershell
 
