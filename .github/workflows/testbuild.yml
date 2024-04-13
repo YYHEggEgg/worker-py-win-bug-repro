@@ -23,14 +23,6 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
 
-    - name: Install npm dependencies
-      run: |
-        npm install
-        npm install wrangler@latest
-      shell: cmd
-      env:
-        ACTIONS_RUNNER_DEBUG: true
-
     - name: Set up Python ${{ env.PY_VERSION }}
       uses: actions/setup-python@v5
       with:
@@ -47,15 +39,25 @@ jobs:
         .\${{ env.VENV_NAME }}\Scripts\activate
       shell: cmd
 
-    - name: Output versions to log
+    - name: Install npm dependencies
+      run: |
+        npm install
+        npm install wrangler@latest
+      shell: cmd
+      env:
+        ACTIONS_RUNNER_DEBUG: true
+
+    - name: Output wrangler version to log
       run: |
         echo "wrangler version: " >> versions.log
         npx wrangler --version >> versions.log
+
+    - name: Output version to log
+      run: |
         echo "Python version: " >> versions.log
         python --version >> versions.log
         echo "npm version: " >> versions.log
         npm --version >> versions.log
-      shell: cmd
 
     - name: Build with npm
       run: npm run build | Out-File -FilePath build.log -Encoding utf8
@@ -82,13 +84,6 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
 
-    - name: Install npm dependencies
-      run: |
-        npm install
-        npm install wrangler@latest
-      env:
-        ACTIONS_RUNNER_DEBUG: true
-
     - name: Set up Python ${{ env.PY_VERSION }}
       uses: actions/setup-python@v5
       with:
@@ -103,6 +98,13 @@ jobs:
       run: |
         python -m virtualenv ${{ env.VENV_NAME }}
         source ${{ env.VENV_NAME }}/bin/activate
+
+    - name: Install npm dependencies
+      run: |
+        npm install
+        npm install wrangler@latest
+      env:
+        ACTIONS_RUNNER_DEBUG: true
 
     - name: Output versions to log
       run: |
