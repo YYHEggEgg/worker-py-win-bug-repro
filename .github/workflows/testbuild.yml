@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - fix
 
 env:
   NODE_VERSION: 20
@@ -39,23 +40,6 @@ jobs:
       env:
         PY_VERSION: ${{ matrix.python }}
 
-    - name: Install Python virtualenv and transcrypt
-      run: |
-        python -m pip install --upgrade pip
-        pip install virtualenv transcrypt
-
-    - name: Create virtual environment (Windows)
-      if: matrix.os == 'windows-latest'
-      run: |
-        virtualenv ${{ env.VENV_NAME }}
-        .\${{ env.VENV_NAME }}\Scripts\activate
-
-    - name: Create virtual environment (Ubuntu)
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        virtualenv ${{ env.VENV_NAME }}
-        source ${{ env.VENV_NAME }}/bin/activate
-
     - name: Install npm dependencies
       run: |
         npm install
@@ -77,12 +61,12 @@ jobs:
 
     - name: Build with npm (Windows)
       if: matrix.os == 'windows-latest'
-      run: npm run build | Out-File -FilePath build.log -Encoding utf8
+      run: npm run start | Out-File -FilePath build.log -Encoding utf8
       shell: powershell
 
     - name: Build with npm (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
-      run: npm run build > build.log
+      run: npm run start > build.log
 
     - name: Upload logs
       if: always()
