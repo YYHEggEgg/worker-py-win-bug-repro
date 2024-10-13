@@ -1,3 +1,5 @@
+Note: the issue has been completed (transcrypt should no longer be used).
+
 # 🐛 BUG: Python Workers can't be compiled under Windows
 
 ## Which Cloudflare product(s) does this pertain to?
